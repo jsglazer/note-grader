@@ -1,12 +1,12 @@
 import { App, TFile } from 'obsidian';
 import type { LLMAnalysis, CorrectionsResult } from './llm-service';
-import type { NoteReviewSettings } from './settings';
+import type { NoteGraderSettings } from './settings';
 import { parseSections } from './settings';
 
 export class NoteAppender {
 	constructor(
 		private app: App,
-		private settings: NoteReviewSettings,
+		private settings: NoteGraderSettings,
 	) {}
 
 	async appendClaudeNotes(file: TFile, analysis: LLMAnalysis, grade: number): Promise<void> {

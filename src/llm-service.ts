@@ -1,5 +1,5 @@
 import type { ParsedNote } from './note-parser';
-import type { NoteReviewSettings } from './settings';
+import type { NoteGraderSettings } from './settings';
 import { ClaudeService } from './claude-service';
 import { OpenAIService } from './openai-service';
 import { GeminiService } from './gemini-service';
@@ -35,7 +35,7 @@ export interface LLMService {
 	generateCorrections(note: ParsedNote, pdfText?: string): Promise<CorrectionsResult>;
 }
 
-export function createLLMService(settings: NoteReviewSettings): LLMService {
+export function createLLMService(settings: NoteGraderSettings): LLMService {
 	switch (settings.llmProvider) {
 		case 'openai':
 		case 'openai-compatible':
@@ -47,7 +47,7 @@ export function createLLMService(settings: NoteReviewSettings): LLMService {
 	}
 }
 
-export function validateProviderConfig(settings: NoteReviewSettings): string | null {
+export function validateProviderConfig(settings: NoteGraderSettings): string | null {
 	switch (settings.llmProvider) {
 		case 'anthropic':
 			if (!settings.anthropicApiKey)
@@ -71,7 +71,7 @@ export function validateProviderConfig(settings: NoteReviewSettings): string | n
 	return null;
 }
 
-export function providerLabel(settings: NoteReviewSettings): string {
+export function providerLabel(settings: NoteGraderSettings): string {
 	switch (settings.llmProvider) {
 		case 'openai':
 			return 'OpenAI';

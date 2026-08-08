@@ -21,26 +21,26 @@ export class GradeModal extends Modal {
 	onOpen(): void {
 		const { contentEl } = this;
 		contentEl.empty();
-		contentEl.addClass('note-review-modal');
+		contentEl.addClass('note-grader-modal');
 
-		const scoreEl = contentEl.createEl('div', { cls: 'note-review-score pass' });
+		const scoreEl = contentEl.createEl('div', { cls: 'note-grader-score pass' });
 		scoreEl.createEl('span', {
 			text: `${this.result.grade}/100`,
-			cls: 'note-review-score-number',
+			cls: 'note-grader-score-number',
 		});
 
-		const subEl = contentEl.createEl('div', { cls: 'note-review-subscores' });
+		const subEl = contentEl.createEl('div', { cls: 'note-grader-subscores' });
 		subEl.createEl('span', {
 			text: `Main idea: ${this.result.scores.main_idea}/25  |  Major points: ${this.result.scores.major_points}/25  |  Accuracy: ${this.result.scores.accuracy}/25  |  Depth: ${this.result.scores.depth}/25`,
-			cls: 'note-review-subscores-text',
+			cls: 'note-grader-subscores-text',
 		});
 
 		contentEl.createEl('p', {
 			text: this.result.feedback,
-			cls: 'note-review-feedback',
+			cls: 'note-grader-feedback',
 		});
 
-		const btnRow = contentEl.createEl('div', { cls: 'note-review-btn-row' });
+		const btnRow = contentEl.createEl('div', { cls: 'note-grader-btn-row' });
 
 		const stopBtn = btnRow.createEl('button', { text: 'Stop' });
 		stopBtn.addEventListener('click', () => this.close());

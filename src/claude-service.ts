@@ -1,5 +1,5 @@
 import Anthropic from '@anthropic-ai/sdk';
-import type { NoteReviewSettings } from './settings';
+import type { NoteGraderSettings } from './settings';
 import type { ParsedNote } from './note-parser';
 import type { GradeResult, LLMAnalysis, CorrectionsResult } from './llm-service';
 import {
@@ -14,7 +14,7 @@ import {
 export class ClaudeService {
 	private client: Anthropic;
 
-	constructor(private settings: NoteReviewSettings) {
+	constructor(private settings: NoteGraderSettings) {
 		this.client = new Anthropic({
 			apiKey: settings.anthropicApiKey,
 			dangerouslyAllowBrowser: true,

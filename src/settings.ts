@@ -1,12 +1,12 @@
 import { App, PluginSettingTab, Setting } from 'obsidian';
 import { access } from 'fs/promises';
 import { join } from 'path';
-import type NoteReviewPlugin from './main';
+import type NoteGraderPlugin from './main';
 
 export type GradingMode = 'note-only' | 'pdf-assisted';
 export type LLMProvider = 'anthropic' | 'openai' | 'openai-compatible' | 'gemini';
 
-export interface NoteReviewSettings {
+export interface NoteGraderSettings {
 	// Provider selection
 	llmProvider: LLMProvider;
 
@@ -45,14 +45,14 @@ export interface NoteReviewSettings {
 	claudeNoteFormat: string;
 }
 
-export function parseSections(settings: NoteReviewSettings): string[] {
+export function parseSections(settings: NoteGraderSettings): string[] {
 	return settings.noteSections
 		.split(',')
 		.map((s) => s.trim())
 		.filter((s) => s.length > 0);
 }
 
-export const DEFAULT_SETTINGS: NoteReviewSettings = {
+export const DEFAULT_SETTINGS: NoteGraderSettings = {
 	llmProvider: 'anthropic',
 
 	anthropicApiKey: '',
@@ -113,14 +113,14 @@ function setIndicator(
 	state: 'unchecked' | 'valid' | 'invalid',
 	tooltip: string,
 ): void {
-	dot.removeClass('note-review-dot-unchecked', 'note-review-dot-valid', 'note-review-dot-invalid');
-	dot.addClass(`note-review-dot-${state}`);
+	dot.removeClass('note-grader-dot-unchecked', 'note-grader-dot-valid', 'note-grader-dot-invalid');
+	dot.addClass(`note-grader-dot-${state}`);
 	dot.setAttribute('title', tooltip);
 }
 
 function addDot(controlEl: HTMLElement): HTMLElement {
 	return controlEl.createEl('span', {
-		cls: 'note-review-path-dot note-review-dot-unchecked',
+		cls: 'note-grader-path-dot note-grader-dot-unchecked',
 		attr: { title: 'Waiting for input…' },
 	});
 }
@@ -133,10 +133,10 @@ function debounce<T extends unknown[]>(fn: (...args: T) => void, ms: number): (.
 	};
 }
 
-export class NoteReviewSettingTab extends PluginSettingTab {
-	plugin: NoteReviewPlugin;
+export class NoteGraderSettingTab extends PluginSettingTab {
+	plugin: NoteGraderPlugin;
 
-	constructor(app: App, plugin: NoteReviewPlugin) {
+	constructor(app: App, plugin: NoteGraderPlugin) {
 		super(app, plugin);
 		this.plugin = plugin;
 	}
@@ -145,7 +145,7 @@ export class NoteReviewSettingTab extends PluginSettingTab {
 		const { containerEl } = this;
 		containerEl.empty();
 
-		containerEl.createEl('h2', { text: 'Note Review Settings' });
+		containerEl.createEl('h2', { text: 'Note Grader Settings' });
 
 		// ── Provider selection ────────────────────────────────────────────
 

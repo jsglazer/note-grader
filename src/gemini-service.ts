@@ -1,4 +1,4 @@
-import type { NoteReviewSettings } from './settings';
+import type { NoteGraderSettings } from './settings';
 import type { ParsedNote } from './note-parser';
 import type { GradeResult, LLMAnalysis, CorrectionsResult } from './llm-service';
 import {
@@ -11,7 +11,7 @@ import {
 } from './llm-prompts';
 
 export class GeminiService {
-	constructor(private settings: NoteReviewSettings) {}
+	constructor(private settings: NoteGraderSettings) {}
 
 	async gradeNote(note: ParsedNote, pdfText?: string): Promise<GradeResult> {
 		const raw = await this.call(buildGradingPrompt(note, pdfText));

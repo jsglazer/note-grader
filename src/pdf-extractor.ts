@@ -1,9 +1,9 @@
 import { exec } from 'child_process';
 import { promises as fs } from 'fs';
-import type { NoteReviewSettings } from './settings';
+import type { NoteGraderSettings } from './settings';
 
 export class PDFExtractor {
-	constructor(private settings: NoteReviewSettings) {}
+	constructor(private settings: NoteGraderSettings) {}
 
 	async extractText(pdfPath: string): Promise<string> {
 		if (!this.settings.pdfScriptPath) {

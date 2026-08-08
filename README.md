@@ -1,12 +1,12 @@
-# note-review
+# note-grader
 
-[![GitHub release](https://img.shields.io/github/v/release/jsglazer/note-review?logo=github)](https://github.com/jsglazer/note-review/releases)
-[![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/jsglazer/note-review/blob/main/LICENSE)
+[![GitHub release](https://img.shields.io/github/v/release/jsglazer/note-grader?logo=github)](https://github.com/jsglazer/note-grader/releases)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/jsglazer/note-grader/blob/main/LICENSE)
 [![Made with Claude](https://img.shields.io/badge/Made_with-Claude-D97756?logo=anthropic)](https://claude.ai)
 [![Gemini Flash Antigravity](https://img.shields.io/badge/Gemini%20Flash-Antigravity-4f86f7?logo=google-gemini&logoColor=white)](https://github.com/google-gemini)
-[![CI](https://github.com/jsglazer/note-review/actions/workflows/ci.yml/badge.svg)](https://github.com/jsglazer/note-review/actions/workflows/ci.yml)
-[![CodeQL](https://github.com/jsglazer/note-review/actions/workflows/codeql.yml/badge.svg)](https://github.com/jsglazer/note-review/actions/workflows/codeql.yml)
-[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/jsglazer/note-review/badge)](https://securityscorecards.dev/viewer/?uri=github.com/jsglazer/note-review)
+[![CI](https://github.com/jsglazer/note-grader/actions/workflows/ci.yml/badge.svg)](https://github.com/jsglazer/note-grader/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/jsglazer/note-grader/actions/workflows/codeql.yml/badge.svg)](https://github.com/jsglazer/note-grader/actions/workflows/codeql.yml)
+[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/jsglazer/note-grader/badge)](https://securityscorecards.dev/viewer/?uri=github.com/jsglazer/note-grader)
 
 An Obsidian plugin that grades your Zotero research notes using an AI language model and helps you improve your academic analysis. Supports Claude, OpenAI, Google Gemini, and local LLMs (Ollama, LM Studio).
 
@@ -208,7 +208,7 @@ python3 -m venv /Users/you/Dev/.venv
 
 ### 6. Configure the plugin settings
 
-In Obsidian → Settings → Note Review:
+In Obsidian → Settings → Note Grader:
 
 | Setting | Value |
 |---|---|

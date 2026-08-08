@@ -1,9 +1,9 @@
 import { Notice, Plugin } from 'obsidian';
 import {
 	DEFAULT_SETTINGS,
-	NoteReviewSettingTab,
+	NoteGraderSettingTab,
 	parseSections,
-	type NoteReviewSettings,
+	type NoteGraderSettings,
 } from './settings';
 import { NoteParser } from './note-parser';
 import { createLLMService, validateProviderConfig, providerLabel } from './llm-service';
@@ -14,8 +14,8 @@ import { GradeModal } from './grade-modal';
 import { FailModal } from './fail-modal';
 import { NoteAppender } from './note-appender';
 
-export default class NoteReviewPlugin extends Plugin {
-	settings: NoteReviewSettings = DEFAULT_SETTINGS;
+export default class NoteGraderPlugin extends Plugin {
+	settings: NoteGraderSettings = DEFAULT_SETTINGS;
 
 	async onload(): Promise<void> {
 		await this.loadSettings();
@@ -30,7 +30,7 @@ export default class NoteReviewPlugin extends Plugin {
 			callback: () => this.runReview(),
 		});
 
-		this.addSettingTab(new NoteReviewSettingTab(this.app, this));
+		this.addSettingTab(new NoteGraderSettingTab(this.app, this));
 	}
 
 	async loadSettings(): Promise<void> {
@@ -49,12 +49,12 @@ export default class NoteReviewPlugin extends Plugin {
 	private async runReview(): Promise<void> {
 		const configError = validateProviderConfig(this.settings);
 		if (configError) {
-			new Notice(`Note Review: ${configError}`, 8000);
+			new Notice(`Note Grader: ${configError}`, 8000);
 			return;
 		}
 
 		const label = providerLabel(this.settings);
-		const notice = new Notice(`Note Review: Grading your notes…`, 0);
+		const notice = new Notice(`Note Grader: Grading your notes…`, 0);
 
 		try {
 			const parser = new NoteParser(this.app);
@@ -67,15 +67,15 @@ export default class NoteReviewPlugin extends Plugin {
 
 			if (this.settings.gradingMode === 'pdf-assisted') {
 				try {
-					notice.setMessage('Note Review: Fetching PDF path from Zotero…');
+					notice.setMessage('Note Grader: Fetching PDF path from Zotero…');
 					const zoteroSvc = new ZoteroService();
 					const pdfPath = await zoteroSvc.getPDFPath(note.itemKey, note.libraryId);
 
-					notice.setMessage('Note Review: Probing PDF for OCR requirement…');
+					notice.setMessage('Note Grader: Probing PDF for OCR requirement…');
 					const probe = await probePDF(pdfPath);
 
 					if (probe.readability === 'digital') {
-						notice.setMessage('Note Review: Extracting text from digital PDF…');
+						notice.setMessage('Note Grader: Extracting text from digital PDF…');
 						pdfText = await extractDigitalPDFText(pdfPath);
 					} else {
 						if (!this.settings.pdfScriptPath) {
@@ -84,20 +84,20 @@ export default class NoteReviewPlugin extends Plugin {
 									'Please set the PDF extraction script path in plugin settings.',
 							);
 						}
-						notice.setMessage('Note Review: PDF is scanned — running OCR extraction…');
+						notice.setMessage('Note Grader: PDF is scanned — running OCR extraction…');
 						const extractor = new PDFExtractor(this.settings);
 						pdfText = await extractor.extractText(pdfPath);
 					}
 				} catch (e) {
 					notice.hide();
 					new Notice(
-						`Note Review: PDF extraction failed — falling back to note-only mode.\n${(e as Error).message}`,
+						`Note Grader: PDF extraction failed — falling back to note-only mode.\n${(e as Error).message}`,
 						8000,
 					);
 				}
 			}
 
-			notice.setMessage(`Note Review: Asking ${label} to grade your notes…`);
+			notice.setMessage(`Note Grader: Asking ${label} to grade your notes…`);
 			const llmSvc = createLLMService(this.settings);
 			const result = await llmSvc.gradeNote(note, pdfText);
 
@@ -113,7 +113,7 @@ export default class NoteReviewPlugin extends Plugin {
 			}
 		} catch (e) {
 			notice.hide();
-			new Notice(`Note Review: ${(e as Error).message}`, 10000);
+			new Notice(`Note Grader: ${(e as Error).message}`, 10000);
 		}
 	}
 }
